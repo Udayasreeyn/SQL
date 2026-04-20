@@ -58,14 +58,14 @@ VALUES
     ('Company JJ', 'Manufacturing', 370.0, 3100, 1, 20, 12, 7.6),
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
-# I used SQL to query database with mock Fortune 500 data for the following prompts - 
+# I used SQL to query database for the following prompts - 
 
 SELECT * 
 FROM fortune_companies
 LIMIT 10
 ;
 
---Show average tenure of employees per industry
+#Show average tenure of employees per industry
 
 SELECT industry
 , ROUND(AVG(avg_employee_tenure)) AS
@@ -74,7 +74,7 @@ FROM fortune_companies
 GROUP BY industry
 ;
 
-----Show average tenure of employees per industry and show top 5 indutries in tenure
+#Show average tenure of employees per industry and show top 5 indutries in tenure
 
 SELECT industry
 , ROUND(AVG(avg_employee_tenure)) AS
@@ -85,7 +85,7 @@ ORDER BY avg_tenure DESC
 LIMIT 5
 ;
 
---Show all companies in the Technology and Healthcare industries and calculate revenue per employee for each company.
+#Show all companies in the Technology and Healthcare industries and calculate revenue per employee for each company.
 
 SELECT company_name
 , industry
@@ -97,7 +97,7 @@ WHERE industry IN ('Technology', 'Healthcare')
 ORDER BY revenue_per_employee DESC
 ;
 
---Find companies that offer healthcare benefits AND have more than 20 paid time off days.
+#Find companies that offer healthcare benefits AND have more than 20 paid time off days.
 
 SELECT company_name
 , industry
@@ -108,7 +108,7 @@ WHERE healthcare_benefits = 1  AND paid_time_off_days > 20
 ORDER BY paid_time_off_days DESC
 ;
 
--- Categorize each company into High, Medium, or Low revenue groups based on their revenue.
+#Categorize each company into High, Medium, or Low revenue groups based on their revenue.
 
 SELECT company_name
 , industry
@@ -120,7 +120,7 @@ SELECT company_name
 FROM fortune_companies
 ;
 
---Find industries where the average revenue is greater than 250.
+#Find industries where the average revenue is greater than 250.
 SELECT industry, 
 AVG(revenue) AS average_revenue
 FROM fortune_companies
@@ -128,7 +128,7 @@ GROUP BY industry
 HAVING AVG(revenue) > 250
 ;
 
---Show the number of companies and highest revenue for industries that are either Retail OR Energy.
+#Show the number of companies and highest revenue for industries that are either Retail OR Energy.
 
 SELECT industry,
        COUNT(company_name) AS company_count,
@@ -136,3 +136,16 @@ SELECT industry,
 FROM fortune_companies
 WHERE industry IN ('Retail', 'Energy')
 GROUP BY industry;
+
+#Assign all the companies in the Healthcare industry as "mother friendly workplace", "acceptable", or "abysmal" based on the maternity leave offered.
+
+SELECT company_name,
+       industry,
+       maternity_leave_weeks,
+       CASE 
+            WHEN maternity_leave_weeks >= 10 THEN 'mother friendly workplace'
+            WHEN maternity_leave_weeks >= 8 THEN 'acceptable'
+            ELSE 'abysmal'
+       END AS mother_friendliness
+FROM fortune_companies
+WHERE industry = 'Healthcare';
