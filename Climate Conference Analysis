@@ -1,3 +1,6 @@
+Climate Conference Project
+Database: https://www.db-fiddle.com/f/pxMci1sLL945KHKYvpe9W6/1
+
 SELECT * FROM vips LIMIT 5;
 SELECT * FROM reservations LIMIT 5;
 SELECT * FROM events LIMIT 5;
